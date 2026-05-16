@@ -11,9 +11,10 @@ function getIP(request: NextRequest): string {
 }
 
 export async function POST(request: NextRequest) {
-  // 限流：每个IP每分钟最多10次，防止被当免费代理滥用
+  // 限流：每IP每分钟20次。正常聊天3-5轮对话约5-8次请求，足够。
+  // 共享IP下多人同时用也够，但恶意代理滥用会被拦住
   const ip = getIP(request)
-  const rate = checkRateLimit(ip, 'chat', { windowMs: 60_000, maxRequests: 10 })
+  const rate = checkRateLimit(ip, 'chat', { windowMs: 60_000, maxRequests: 20 })
   if (!rate.allowed) {
     return NextResponse.json(
       { error: '请求太频繁，请稍后再试' },
