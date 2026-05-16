@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import { toast } from 'sonner'
 import { Home, Globe, Send, Loader2, X } from 'lucide-react'
 import { PageType } from '@/lib/types'
-import { askDeepSeek } from '@/lib/deepseek'
+import { askDeepSeek, ChatMessage } from '@/lib/deepseek'
 import { cn } from '@/lib/utils'
 import { getUserId } from '@/lib/storage'
 
@@ -113,12 +113,18 @@ export function AIChat({ onNavigate }: AIChatProps) {
     if (!trimmed || isLoading) return
 
     const userMessage: Message = { role: 'user', content: trimmed }
+    // 将当前消息历史转为 ChatMessage[] 传给 API（压缩 + 上下文）
+    const history: ChatMessage[] = messages.map(m => ({
+      role: m.role as 'user' | 'assistant',
+      content: m.content,
+    }))
+
     setMessages((prev) => [...prev, userMessage])
     setInput('')
     setIsLoading(true)
 
     try {
-      const response = await askDeepSeek(trimmed)
+      const response = await askDeepSeek(trimmed, history)
       const aiMessage: Message = { role: 'assistant', content: response }
       setMessages((prev) => [...prev, aiMessage])
     } catch {
