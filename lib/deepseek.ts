@@ -3,8 +3,8 @@ export interface ChatMessage {
   content: string
 }
 
-const API_KEY = process.env.NEXT_PUBLIC_DEEPSEEK_API_KEY || ''
-const BASE_URL = 'https://api.deepseek.com/v1/chat/completions'
+// 请求走服务端 API Route 中转，API Key 不暴露到浏览器
+const PROXY_URL = '/api/chat'
 
 const DEFAULT_SYSTEM_PROMPT = `你是塑料材质鉴定专家。你通过简短对话帮助用户识别未知塑料。
 
@@ -49,23 +49,15 @@ export async function askDeepSeek(
   ]
 
   try {
-    const response = await fetch(BASE_URL, {
+    const response = await fetch(PROXY_URL, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${API_KEY}`,
-      },
-      body: JSON.stringify({
-        model: 'deepseek-chat',
-        messages,
-        max_tokens: 300,
-        temperature: 0.7,
-      }),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages, max_tokens: 300, temperature: 0.7 }),
     })
 
     if (!response.ok) {
-      const errorText = await response.text()
-      throw new Error(`DeepSeek API error ${response.status}: ${errorText}`)
+      const errData = await response.json().catch(() => ({}))
+      throw new Error(errData.error || `请求失败 (${response.status})`)
     }
 
     const data = await response.json()
