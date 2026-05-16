@@ -2,21 +2,23 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { 
-  History, 
-  Settings, 
-  MessageSquare, 
-  Search, 
-  Zap, 
+import {
+  History,
+  Settings,
+  MessageSquare,
+  Search,
+  Zap,
   Camera,
   TrendingUp,
   TrendingDown,
   ChevronDown,
   ChevronUp,
   Activity,
-  Download
+  Download,
+  Clock,
+  BookOpen
 } from 'lucide-react'
-import { PageType } from '@/app/page'
+import { PageType } from '@/lib/types'
 import { marketPrices } from '@/lib/plastic-data'
 import { cn } from '@/lib/utils'
 
@@ -30,11 +32,9 @@ const actionCards = [
   {
     id: 'ai',
     title: 'AI 咨询',
-    subtitle: 'DeepSeek 智能引导',
+    subtitle: 'DeepSeek 智能识别',
     icon: MessageSquare,
-    page: 'wizard' as PageType,
-    disabled: true,
-    badge: '即将上线',
+    page: 'ai-chat' as PageType,
   },
   {
     id: 'wizard',
@@ -53,11 +53,9 @@ const actionCards = [
   {
     id: 'camera',
     title: '拍照存样',
-    subtitle: '拍摄并备注 (预留接口)',
+    subtitle: '拍摄并备注',
     icon: Camera,
-    page: 'dashboard' as PageType,
-    disabled: true,
-    badge: '预留',
+    page: 'photo-log' as PageType,
   },
 ]
 
@@ -70,8 +68,8 @@ export function Dashboard({ onNavigate, onExportLog, historyCount }: DashboardPr
       <header className="flex items-center justify-between px-4 py-4 border-b border-[#27272A]">
         <h1 className="text-xl font-bold tracking-tight">塑料材质识别</h1>
         <div className="flex items-center gap-2">
-          <button 
-            onClick={() => onNavigate('dictionary')}
+          <button
+            onClick={() => onNavigate('history')}
             className="relative p-2.5 rounded-lg bg-[#1A1A1D] hover:bg-[#27272A] transition-colors duration-250 active:scale-95"
           >
             <History className="w-5 h-5" />
@@ -80,6 +78,20 @@ export function Dashboard({ onNavigate, onExportLog, historyCount }: DashboardPr
                 {historyCount > 9 ? '9+' : historyCount}
               </span>
             )}
+          </button>
+          <button
+            onClick={() => onNavigate('feedback-form')}
+            className="p-2.5 rounded-lg bg-[#1A1A1D] hover:bg-[#27272A] transition-colors duration-250 active:scale-95"
+            title="反馈"
+          >
+            <MessageSquare className="w-5 h-5" />
+          </button>
+          <button
+            onClick={() => onNavigate('encyclopedia')}
+            className="p-2.5 rounded-lg bg-[#1A1A1D] hover:bg-[#27272A] transition-colors duration-250 active:scale-95"
+            title="百科"
+          >
+            <BookOpen className="w-5 h-5" />
           </button>
           <button className="p-2.5 rounded-lg bg-[#1A1A1D] hover:bg-[#27272A] transition-colors duration-250 active:scale-95">
             <Settings className="w-5 h-5" />
@@ -179,13 +191,22 @@ export function Dashboard({ onNavigate, onExportLog, historyCount }: DashboardPr
             </span>
             <span>API 延迟: 24ms</span>
           </div>
-          <button 
-            onClick={onExportLog}
-            className="flex items-center gap-1.5 hover:text-[#F5F5F5] transition-colors"
-          >
-            <Download className="w-3.5 h-3.5" />
-            数据导出
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => onNavigate('feedback-history')}
+              className="flex items-center gap-1.5 hover:text-[#F5F5F5] transition-colors"
+            >
+              <Clock className="w-3.5 h-3.5" />
+              我的反馈
+            </button>
+            <button
+              onClick={onExportLog}
+              className="flex items-center gap-1.5 hover:text-[#F5F5F5] transition-colors"
+            >
+              <Download className="w-3.5 h-3.5" />
+              数据导出
+            </button>
+          </div>
         </div>
       </footer>
     </div>

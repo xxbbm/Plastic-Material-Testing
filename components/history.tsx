@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { Clock, Home, ChevronRight, Download, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
-import { PageType } from '@/app/page'
+import { PageType } from '@/lib/types'
 import { DetectionResult } from '@/lib/plastic-data'
 import { exportToClipboard } from '@/lib/storage'
 import { cn } from '@/lib/utils'

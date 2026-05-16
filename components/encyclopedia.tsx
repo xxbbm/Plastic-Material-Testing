@@ -12,8 +12,7 @@ import {
   ChevronDown,
   ChevronUp,
 } from 'lucide-react'
-import { PageType } from '@/app/page'
-import { PlasticMaterial } from '@/lib/plastic-data'
+import { PageType, PlasticMaterial } from '@/lib/types'
 import { cn } from '@/lib/utils'
 
 interface EncyclopediaProps {

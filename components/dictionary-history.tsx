@@ -12,7 +12,7 @@ import {
   Flame,
   Scale
 } from 'lucide-react'
-import { PageType } from '@/app/page'
+import { PageType } from '@/lib/types'
 import { plasticMaterials, DetectionResult } from '@/lib/plastic-data'
 import { cn } from '@/lib/utils'
 

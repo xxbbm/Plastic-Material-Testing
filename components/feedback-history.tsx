@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Clock, Home, CheckCircle2, Circle } from 'lucide-react'
-import { PageType } from '@/app/page'
+import { PageType } from '@/lib/types'
 import { FeedbackEntry } from '@/lib/types'
 import { getUserId } from '@/lib/storage'
 import { cn } from '@/lib/utils'

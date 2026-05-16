@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { toast } from 'sonner'
 import { Home, Globe, Send, Loader2 } from 'lucide-react'
-import { PageType } from '@/app/page'
+import { PageType } from '@/lib/types'
 import { askDeepSeek } from '@/lib/deepseek'
 import { cn } from '@/lib/utils'
 

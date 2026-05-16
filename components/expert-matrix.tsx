@@ -3,8 +3,9 @@
 import { useState, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { Home, RotateCcw, Check } from 'lucide-react'
-import { PageType } from '@/app/page'
-import { expertTags, plasticMaterials, DetectionResult } from '@/lib/plastic-data'
+import { PageType } from '@/lib/types'
+import { plasticMaterials, DetectionResult } from '@/lib/plastic-data'
+import { expertTags } from '@/lib/wizard-data'
 import { cn } from '@/lib/utils'
 
 interface ExpertMatrixProps {

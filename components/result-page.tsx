@@ -15,7 +15,7 @@ import {
   Eye,
   EyeOff
 } from 'lucide-react'
-import { PageType } from '@/app/page'
+import { PageType } from '@/lib/types'
 import { DetectionResult } from '@/lib/plastic-data'
 import { cn } from '@/lib/utils'
 

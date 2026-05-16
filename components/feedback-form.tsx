@@ -4,7 +4,7 @@ import { useState, FormEvent } from 'react'
 import { motion } from 'framer-motion'
 import { MessageSquare, Home, Send } from 'lucide-react'
 import { toast } from 'sonner'
-import { PageType } from '@/app/page'
+import { PageType } from '@/lib/types'
 import { getUserId } from '@/lib/storage'
 import { cn } from '@/lib/utils'
 

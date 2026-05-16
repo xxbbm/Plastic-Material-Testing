@@ -16,7 +16,7 @@ import {
   Zap,
 } from 'lucide-react'
 import { toast } from 'sonner'
-import { PageType } from '@/app/page'
+import { PageType } from '@/lib/types'
 import { PlasticMaterial, DetectionResult } from '@/lib/plastic-data'
 import { plasticMaterials } from '@/lib/plastic-data'
 import { cn } from '@/lib/utils'

@@ -1,16 +1,20 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { toast } from 'sonner'
 import { Dashboard } from '@/components/dashboard'
 import { DetailedWizard } from '@/components/detailed-wizard'
 import { ExpertMatrix } from '@/components/expert-matrix'
 import { ResultPage } from '@/components/result-page'
-import { DictionaryHistory } from '@/components/dictionary-history'
-import { DetectionResult } from '@/lib/plastic-data'
-
-export type PageType = 'dashboard' | 'wizard' | 'expert' | 'result' | 'dictionary'
+import { Encyclopedia } from '@/components/encyclopedia'
+import { History } from '@/components/history'
+import { AIChat } from '@/components/ai-chat'
+import { PhotoLog } from '@/components/photo-log'
+import { FeedbackForm } from '@/components/feedback-form'
+import { FeedbackHistory } from '@/components/feedback-history'
+import { PageType, PlasticMaterial, DetectionResult } from '@/lib/types'
+import { getHistory, addHistory, clearHistory } from '@/lib/storage'
 
 const pageVariants = {
   initial: { opacity: 0, x: 20 },
@@ -20,8 +24,19 @@ const pageVariants = {
 
 export default function Home() {
   const [currentPage, setCurrentPage] = useState<PageType>('dashboard')
+  const [materials, setMaterials] = useState<PlasticMaterial[]>([])
   const [detectionHistory, setDetectionHistory] = useState<DetectionResult[]>([])
   const [currentResult, setCurrentResult] = useState<DetectionResult | null>(null)
+
+  // Load materials from API on mount
+  useEffect(() => {
+    fetch('/api/materials').then(r => r.json()).then(setMaterials)
+  }, [])
+
+  // Load detection history from localStorage on mount
+  useEffect(() => {
+    setDetectionHistory(getHistory())
+  }, [])
 
   const navigateTo = useCallback((page: PageType) => {
     setCurrentPage(page)
@@ -29,8 +44,14 @@ export default function Home() {
 
   const handleDetectionComplete = useCallback((result: DetectionResult) => {
     setCurrentResult(result)
-    setDetectionHistory(prev => [result, ...prev])
+    addHistory(result)
+    setDetectionHistory(getHistory())
     setCurrentPage('result')
+  }, [])
+
+  const handleClearHistory = useCallback(() => {
+    clearHistory()
+    setDetectionHistory([])
   }, [])
 
   const handleExportLog = useCallback(() => {
@@ -62,38 +83,58 @@ export default function Home() {
           className="min-h-screen"
         >
           {currentPage === 'dashboard' && (
-            <Dashboard 
-              onNavigate={navigateTo} 
+            <Dashboard
+              onNavigate={navigateTo}
               onExportLog={handleExportLog}
               historyCount={detectionHistory.length}
             />
           )}
           {currentPage === 'wizard' && (
-            <DetailedWizard 
+            <DetailedWizard
               onNavigate={navigateTo}
               onComplete={handleDetectionComplete}
+              materials={materials}
             />
           )}
           {currentPage === 'expert' && (
-            <ExpertMatrix 
+            <ExpertMatrix
               onNavigate={navigateTo}
               onComplete={handleDetectionComplete}
             />
           )}
           {currentPage === 'result' && currentResult && (
-            <ResultPage 
+            <ResultPage
               result={currentResult}
               onNavigate={navigateTo}
               onSave={() => toast.success('结果已保存')}
               onExport={handleExportLog}
             />
           )}
-          {currentPage === 'dictionary' && (
-            <DictionaryHistory 
+          {currentPage === 'encyclopedia' && (
+            <Encyclopedia
+              onNavigate={navigateTo}
+              materials={materials}
+            />
+          )}
+          {currentPage === 'history' && (
+            <History
               onNavigate={navigateTo}
               history={detectionHistory}
               onViewResult={handleViewHistoryResult}
+              onClear={handleClearHistory}
             />
+          )}
+          {currentPage === 'ai-chat' && (
+            <AIChat onNavigate={navigateTo} />
+          )}
+          {currentPage === 'photo-log' && (
+            <PhotoLog onNavigate={navigateTo} />
+          )}
+          {currentPage === 'feedback-form' && (
+            <FeedbackForm onNavigate={navigateTo} />
+          )}
+          {currentPage === 'feedback-history' && (
+            <FeedbackHistory onNavigate={navigateTo} />
           )}
         </motion.div>
       </AnimatePresence>
