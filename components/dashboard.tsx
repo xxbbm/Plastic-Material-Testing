@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import {
   History,
@@ -67,6 +67,31 @@ export function Dashboard({ onNavigate, onExportLog, historyCount }: DashboardPr
   const [showAnalysis, setShowAnalysis] = useState(false)
   const [analysisLoading, setAnalysisLoading] = useState(false)
   const [analysisText, setAnalysisText] = useState('')
+
+  const analysisFetched = useRef(false)
+
+  useEffect(() => {
+    if (!analysisFetched.current) {
+      analysisFetched.current = true
+      setTimeout(() => {
+        setShowAnalysis(true)
+        setAnalysisLoading(true)
+        const priceList = marketPrices.map(m =>
+          `${m.name} ¥${m.price}/吨 ${m.change > 0 ? '+' : ''}${m.change}%`
+        ).join('；')
+        askDeepSeek(
+          `以下是当前塑料回收市场参考价格：${priceList}。请根据这些数据做一个简洁的行情简评，分析涨跌原因和趋势，不超过120字。`,
+          { mode: 'price' }
+        ).then(result => {
+          setAnalysisText(result)
+          setAnalysisLoading(false)
+        }).catch(() => {
+          setAnalysisText('行情分析暂时不可用，请稍后重试')
+          setAnalysisLoading(false)
+        })
+      }, 1500)
+    }
+  }, [])
 
   const handleFetchAnalysis = useCallback(async () => {
     setShowAnalysis(true)
