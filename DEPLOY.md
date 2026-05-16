@@ -144,54 +144,119 @@ sudo certbot --nginx -d 你的域名
 
 ## 安全加固
 
-### 1. 隐藏 API Key
+### 1. API Key 保护
 
-当前 DeepSeek Key 用了 `NEXT_PUBLIC_` 前缀暴露在浏览器端。生产环境建议改为服务端中转：
+已内置：`/api/chat` 服务端中转，Key 只存在 `.env.local` 的 `DEEPSEEK_API_KEY` 中，浏览器不可见。
 
-创建 `app/api/chat/route.ts`：
+### 2. 限流保护
 
-```typescript
-import { NextRequest, NextResponse } from 'next/server'
+已内置：
+- `/api/chat` 每个 IP 每分钟最多 10 次
+- `/api/feedback` 每个 IP 每分钟最多 3 条
+- 超出返回 429 "请求太频繁"
 
-const API_KEY = process.env.DEEPSEEK_API_KEY  // 不用 NEXT_PUBLIC_ 前缀
-const BASE_URL = 'https://api.deepseek.com/v1/chat/completions'
+### 3. Nginx 安全配置
 
-export async function POST(request: NextRequest) {
-  const body = await request.json()
-  const response = await fetch(BASE_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${API_KEY}`,
-    },
-    body: JSON.stringify({
-      model: 'deepseek-chat',
-      messages: body.messages,
-      max_tokens: 300,
-      temperature: 0.7,
-    }),
-  })
-  const data = await response.json()
-  return NextResponse.json(data)
+将 `server` 块升级为以下完整配置：
+
+```nginx
+server {
+    listen 80;
+    server_name 你的域名或IP;
+
+    # 上传限制
+    client_max_body_size 10m;
+
+    # 限制请求速率 — 防 CC 攻击
+    limit_req_zone $binary_remote_addr zone=api:10m rate=10r/s;
+    limit_req zone=api burst=20 nodelay;
+
+    # 限制并发连接
+    limit_conn_zone $binary_remote_addr zone=conn:10m;
+    limit_conn conn 20;
+
+    # 隐藏 Nginx 版本号
+    server_tokens off;
+
+    # 阻止常见攻击路径
+    location ~* /\.(git|env|gitignore) { return 404; }
+    location ~* /wp-admin|/xmlrpc\.php { return 404; }
+
+    # 只允许这些 HTTP 方法
+    if ($request_method !~ ^(GET|POST|HEAD|PATCH|PUT|DELETE)$) {
+        return 405;
+    }
+
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+
+        # 超时设置
+        proxy_connect_timeout 30s;
+        proxy_read_timeout 30s;
+        proxy_send_timeout 30s;
+    }
 }
 ```
 
-然后修改 `lib/deepseek.ts` 的 `BASE_URL` 指向 `/api/chat`，`.env.local` 改为用 `DEEPSEEK_API_KEY`（不带前缀）。
-
-### 2. 设防火墙
+### 4. 设防火墙
 
 ```bash
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
 sudo ufw allow 22     # SSH
 sudo ufw allow 80     # HTTP
 sudo ufw allow 443    # HTTPS
 sudo ufw enable
 ```
 
-### 3. data 目录写权限
+### 5. Fail2Ban — 防暴力破解
+
+```bash
+sudo apt install -y fail2ban
+
+# 创建 Nginx 防护规则
+sudo tee /etc/fail2ban/jail.local << 'EOF'
+[nginx-http-auth]
+enabled = true
+maxretry = 5
+bantime = 3600
+
+[nginx-botsearch]
+enabled = true
+maxretry = 5
+bantime = 3600
+
+[nginx-limit-req]
+enabled = true
+maxretry = 5
+bantime = 3600
+EOF
+
+sudo systemctl enable fail2ban
+sudo systemctl restart fail2ban
+```
+
+### 6. data 目录写权限
 
 ```bash
 chmod 755 data/
 chmod 644 data/*.json
+```
+
+### 7. 定期更新系统
+
+```bash
+# 设置自动安全更新
+sudo apt install -y unattended-upgrades
+sudo dpkg-reconfigure -plow unattended-upgrades
 ```
 
 ---
