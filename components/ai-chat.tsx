@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { toast } from 'sonner'
-import { Home, Globe, Send, Loader2 } from 'lucide-react'
+import { Home, Globe, Send, Loader2, X } from 'lucide-react'
 import { PageType } from '@/lib/types'
 import { askDeepSeek } from '@/lib/deepseek'
 import { cn } from '@/lib/utils'
@@ -205,23 +205,40 @@ export function AIChat({ onNavigate }: AIChatProps) {
       {showSessionList && (
         <div className="absolute top-12 left-4 right-4 z-10 bg-[#111113] border border-[#27272A] rounded-xl p-2 max-h-64 overflow-y-auto">
           {sessions.map(s => (
-            <button
-              key={s.id}
-              onClick={() => {
-                setActiveSessionId(s.id)
-                setMessages(s.messages)
-                setShowSessionList(false)
-              }}
-              className={cn(
-                'w-full text-left px-3 py-2 rounded-lg hover:bg-[#1A1A1D] text-sm transition-colors',
-                s.id === activeSessionId && 'bg-[#1A1A1D] border border-[#27272A]',
-              )}
-            >
-              <div className="font-medium">{s.name}</div>
-              <div className="text-xs text-[#52525B]">
-                {new Date(s.createdAt).toLocaleString('zh-CN')} · {s.messages.length}条消息
-              </div>
-            </button>
+            <div key={s.id} className="flex items-center gap-1">
+              <button
+                onClick={() => {
+                  setActiveSessionId(s.id)
+                  setMessages(s.messages)
+                  setShowSessionList(false)
+                }}
+                className={cn(
+                  'flex-1 text-left px-3 py-2 rounded-lg hover:bg-[#1A1A1D] text-sm transition-colors',
+                  s.id === activeSessionId && 'bg-[#1A1A1D] border border-[#27272A]',
+                )}
+              >
+                <div className="font-medium">{s.name}</div>
+                <div className="text-xs text-[#52525B]">
+                  {new Date(s.createdAt).toLocaleString('zh-CN')} · {s.messages.length}条消息
+                </div>
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation()
+                  const updated = sessions.filter(x => x.id !== s.id)
+                  setSessions(updated)
+                  saveSessions(updated)
+                  if (s.id === activeSessionId && updated.length > 0) {
+                    setActiveSessionId(updated[0].id)
+                    setMessages(updated[0].messages)
+                  }
+                }}
+                className="p-1.5 rounded-lg text-[#52525B] hover:text-[#EF4444] hover:bg-[#EF4444]/10 transition-colors flex-shrink-0"
+                title="删除对话"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            </div>
           ))}
         </div>
       )}

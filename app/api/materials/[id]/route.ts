@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getMaterialById, updateMaterial, deleteMaterial } from '@/lib/materials-store'
+import { isAdmin } from '@/app/api/admin/auth/route'
 
 export async function GET(
   _request: NextRequest,
@@ -17,6 +18,9 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  if (!isAdmin(request)) {
+    return NextResponse.json({ error: '未授权' }, { status: 401 })
+  }
   const { id } = await params
   const body = await request.json()
   const updated = updateMaterial(id, body)
@@ -27,9 +31,12 @@ export async function PUT(
 }
 
 export async function DELETE(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  if (!isAdmin(request)) {
+    return NextResponse.json({ error: '未授权' }, { status: 401 })
+  }
   const { id } = await params
   const deleted = deleteMaterial(id)
   if (!deleted) {
