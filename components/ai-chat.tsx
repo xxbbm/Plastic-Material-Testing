@@ -7,6 +7,7 @@ import { Home, Globe, Send, Loader2 } from 'lucide-react'
 import { PageType } from '@/lib/types'
 import { askDeepSeek } from '@/lib/deepseek'
 import { cn } from '@/lib/utils'
+import { getUserId } from '@/lib/storage'
 
 interface Message {
   role: 'user' | 'assistant'
@@ -15,6 +16,30 @@ interface Message {
 
 interface AIChatProps {
   onNavigate: (page: PageType) => void
+}
+
+interface ChatSession {
+  id: string
+  name: string
+  messages: Message[]
+  createdAt: number
+}
+
+const SESSIONS_KEY = 'chatSessions'
+const SESSION_EXPIRY = 7 * 24 * 60 * 60 * 1000 // 7 days
+
+function loadSessions(): ChatSession[] {
+  if (typeof window === 'undefined') return []
+  try {
+    const raw = localStorage.getItem(SESSIONS_KEY)
+    const sessions: ChatSession[] = raw ? JSON.parse(raw) : []
+    const now = Date.now()
+    return sessions.filter(s => now - s.createdAt < SESSION_EXPIRY)
+  } catch { return [] }
+}
+
+function saveSessions(sessions: ChatSession[]) {
+  localStorage.setItem(SESSIONS_KEY, JSON.stringify(sessions))
 }
 
 const QUICK_TAGS = [
@@ -37,6 +62,10 @@ export function AIChat({ onNavigate }: AIChatProps) {
   const [isLoading, setIsLoading] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const [hasResult, setHasResult] = useState(false)
+  const [sessions, setSessions] = useState<ChatSession[]>([])
+  const [activeSessionId, setActiveSessionId] = useState<string>('')
+  const [showSessionList, setShowSessionList] = useState(false)
 
   // Auto scroll to bottom on new messages or loading state change
   useEffect(() => {
@@ -47,6 +76,37 @@ export function AIChat({ onNavigate }: AIChatProps) {
   useEffect(() => {
     inputRef.current?.focus()
   }, [])
+
+  // Load sessions on mount
+  useEffect(() => {
+    const loaded = loadSessions()
+    if (loaded.length > 0) {
+      setSessions(loaded)
+      setActiveSessionId(loaded[0].id)
+      setMessages(loaded[0].messages)
+    } else {
+      const defaultSession: ChatSession = {
+        id: `chat-${Date.now()}`,
+        name: '对话 1',
+        messages: [],
+        createdAt: Date.now(),
+      }
+      setSessions([defaultSession])
+      setActiveSessionId(defaultSession.id)
+    }
+  }, [])
+
+  // Save messages to active session whenever they change
+  useEffect(() => {
+    if (!activeSessionId) return
+    setSessions(prev => {
+      const updated = prev.map(s =>
+        s.id === activeSessionId ? { ...s, messages } : s
+      )
+      saveSessions(updated)
+      return updated
+    })
+  }, [messages, activeSessionId])
 
   const sendMessage = async (text: string) => {
     const trimmed = text.trim()
@@ -105,6 +165,32 @@ export function AIChat({ onNavigate }: AIChatProps) {
               即将上线
             </div>
           </div>
+          {/* New chat button */}
+          <button
+            onClick={() => {
+              const newSession: ChatSession = {
+                id: `chat-${Date.now()}`,
+                name: `对话 ${sessions.length + 1}`,
+                messages: [],
+                createdAt: Date.now(),
+              }
+              const updated = [newSession, ...sessions]
+              setSessions(updated)
+              saveSessions(updated)
+              setActiveSessionId(newSession.id)
+              setMessages([])
+            }}
+            className="px-3 py-1.5 rounded-lg text-xs bg-[#10B981]/10 text-[#10B981] border border-[#10B981]/20 hover:bg-[#10B981]/20 transition-all"
+          >
+            + 新对话
+          </button>
+          {/* Session list toggle */}
+          <button
+            onClick={() => setShowSessionList(!showSessionList)}
+            className="px-2 py-1.5 rounded-lg text-xs bg-[#1A1A1D] text-[#A1A1AA] hover:bg-[#27272A] transition-all"
+          >
+            历史对话 ({sessions.length})
+          </button>
           {/* Home button */}
           <button
             onClick={() => onNavigate('dashboard')}
@@ -114,6 +200,31 @@ export function AIChat({ onNavigate }: AIChatProps) {
           </button>
         </div>
       </header>
+
+      {/* Session List Dropdown */}
+      {showSessionList && (
+        <div className="absolute top-12 left-4 right-4 z-10 bg-[#111113] border border-[#27272A] rounded-xl p-2 max-h-64 overflow-y-auto">
+          {sessions.map(s => (
+            <button
+              key={s.id}
+              onClick={() => {
+                setActiveSessionId(s.id)
+                setMessages(s.messages)
+                setShowSessionList(false)
+              }}
+              className={cn(
+                'w-full text-left px-3 py-2 rounded-lg hover:bg-[#1A1A1D] text-sm transition-colors',
+                s.id === activeSessionId && 'bg-[#1A1A1D] border border-[#27272A]',
+              )}
+            >
+              <div className="font-medium">{s.name}</div>
+              <div className="text-xs text-[#52525B]">
+                {new Date(s.createdAt).toLocaleString('zh-CN')} · {s.messages.length}条消息
+              </div>
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Messages Area */}
       <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
@@ -147,6 +258,19 @@ export function AIChat({ onNavigate }: AIChatProps) {
                 >
                   {msg.content}
                 </div>
+                {msg.role === 'assistant' && (msg.content.includes('判定结果') || msg.content.includes('材质：')) && (
+                  <div className="mt-2">
+                    <button
+                      onClick={() => {
+                        setInput('结果不太对，请重新分析。我之前说的是：')
+                        inputRef.current?.focus()
+                      }}
+                      className="px-3 py-1.5 rounded-lg text-xs bg-[#EF4444]/10 border border-[#EF4444]/30 text-[#EF4444] hover:bg-[#EF4444]/20 transition-colors"
+                    >
+                      结果有误？点击重新补充描述
+                    </button>
+                  </div>
+                )}
               </motion.div>
             ))}
 
