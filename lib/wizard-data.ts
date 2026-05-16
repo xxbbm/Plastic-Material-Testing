@@ -1,7 +1,8 @@
 import { WizardQuestion, ExpertTagCategory } from './types'
 
-// 20 materials: pc, abs, pc-abs, pp-abs, transparent-abs, pom, pp, pe, hdpe, ldpe,
-//               pa, ps, pet, pvc, pmma, fr-abs, lead-filled, stone-filled, pla, pbt
+// 24 materials: pc, abs, pc-abs, pp-abs, transparent-abs, pom, pp, pe, hdpe, ldpe,
+//               pa, ps, pet, pvc, pmma, fr-abs, lead-filled, stone-filled, pla, pbt,
+//               pc-pbt, pa-abs, asa, hips
 
 export const branchQuestions: WizardQuestion[] = [
   // ════════════════════ 火烧分支 (4 questions) ════════════════════
@@ -17,7 +18,7 @@ export const branchQuestions: WizardQuestion[] = [
       },
       {
         label: '向四周散开', value: 'spark-spread',
-        weight: { abs: 4, 'pc-abs': 3, 'pp-abs': 3, 'transparent-abs': 3, 'fr-abs': 3, ps: 3 },
+        weight: { abs: 4, 'pc-abs': 3, 'pp-abs': 3, 'transparent-abs': 3, 'fr-abs': 3, ps: 3, 'pc-pbt': 3, asa: 3, hips: 3 },
       },
       {
         label: '几乎无火星', value: 'spark-none',
@@ -25,7 +26,7 @@ export const branchQuestions: WizardQuestion[] = [
           pp: 4, pe: 4, hdpe: 4, ldpe: 4,
           pom: 4, pvc: 4,
           'lead-filled': 4, 'stone-filled': 4,
-          pa: 4, pet: 4, pmma: 4, pla: 4, pbt: 4,
+          pa: 4, pet: 4, pmma: 4, pla: 4, pbt: 4, 'pa-abs': 2,
         },
       },
     ],
@@ -42,7 +43,7 @@ export const branchQuestions: WizardQuestion[] = [
           pp: 3, pe: 3, hdpe: 3, ldpe: 3,
           ps: 2, pla: 3, abs: 3, pc: 3,
           pet: 2, pbt: 3, pa: 2, pvc: 2,
-          'fr-abs': 3, pom: 2,
+          'fr-abs': 3, pom: 2, 'pc-pbt': 3, asa: 3, hips: 3,
         },
       },
       {
@@ -51,7 +52,7 @@ export const branchQuestions: WizardQuestion[] = [
       },
       {
         label: '蓝色火焰明显', value: 'flame-blue',
-        weight: { pa: 4, pmma: 3, pom: 2 },
+        weight: { pa: 4, pmma: 3, pom: 2, 'pa-abs': 3 },
       },
       {
         label: '黄色带绿边', value: 'flame-green-edge',
@@ -71,12 +72,13 @@ export const branchQuestions: WizardQuestion[] = [
           abs: 4, ps: 5, 'transparent-abs': 4,
           'fr-abs': 3, pc: 3,
           'pc-abs': 2, 'pp-abs': 2,
+          asa: 3, hips: 4,
         },
       },
       {
         label: '中等黑烟', value: 'smoke-medium',
         weight: {
-          'pc-abs': 3, pet: 2, 'pp-abs': 1,
+          'pc-abs': 3, pet: 2, 'pp-abs': 1, 'pc-pbt': 3,
         },
       },
       {
@@ -85,7 +87,7 @@ export const branchQuestions: WizardQuestion[] = [
           pp: 4, pe: 4, hdpe: 4, ldpe: 4,
           pmma: 5, pom: 5,
           pla: 3, 'lead-filled': 4, 'stone-filled': 4,
-          pa: 3, pbt: 3, pvc: 3, pet: 1, pc: 1,
+          pa: 3, pbt: 3, pvc: 3, pet: 1, pc: 1, 'pa-abs': 3,
         },
       },
     ],
@@ -103,6 +105,7 @@ export const branchQuestions: WizardQuestion[] = [
           pc: 4, pmma: 4,
           ps: 3, pet: 3, pla: 3, pbt: 3,
           'lead-filled': 1, 'stone-filled': 1,
+          'pc-pbt': 3, hips: 3,
         },
       },
       {
@@ -110,7 +113,7 @@ export const branchQuestions: WizardQuestion[] = [
         weight: {
           abs: 5, pa: 4,
           'fr-abs': 3, 'pp-abs': 3, 'transparent-abs': 3,
-          'pc-abs': 2,
+          'pc-abs': 2, 'pa-abs': 3, asa: 3,
         },
       },
       {
@@ -123,7 +126,32 @@ export const branchQuestions: WizardQuestion[] = [
       },
     ],
   },
-  // ════════════════════ 物理分支 (4 questions) ════════════════════
+  // ════════════════════ 物理分支 (5 questions) ════════════════════
+  {
+    id: 'appearance',
+    question: '材料外观透明度？',
+    tip: '高透明 = PC/PMMA/PET/PS；半透明 = PE/PP/PLA；不透明 = ABS/合金/POM/PBT/PVC',
+    branch: 'physical',
+    options: [
+      {
+        label: '高透明（像玻璃）', value: 'transparent-high',
+        weight: { pc: 4, pmma: 4, pet: 4, ps: 3 },
+      },
+      {
+        label: '半透明/乳白', value: 'transparent-mid',
+        weight: { pp: 4, pe: 4, hdpe: 4, ldpe: 4, pla: 3, pom: 1 },
+      },
+      {
+        label: '完全不透明', value: 'opaque',
+        weight: {
+          abs: 4, 'pc-abs': 4, 'pp-abs': 4, 'transparent-abs': 4,
+          'fr-abs': 4, pvc: 3, pbt: 3, 'lead-filled': 3, 'stone-filled': 3,
+          'pc-pbt': 4, 'pa-abs': 4, asa: 4, hips: 3,
+          pa: 1, pom: 1,
+        },
+      },
+    ],
+  },
   {
     id: 'sound',
     question: '敲击样品的声音？',
@@ -134,7 +162,7 @@ export const branchQuestions: WizardQuestion[] = [
         label: '金属脆声/清脆', value: 'sound-crisp',
         weight: {
           pc: 4, pom: 4, pmma: 4, ps: 4,
-          pet: 4, pa: 4, pla: 4, pbt: 4,
+          pet: 4, pa: 4, pla: 4, pbt: 4, 'pa-abs': 3,
         },
       },
       {
@@ -142,6 +170,7 @@ export const branchQuestions: WizardQuestion[] = [
         weight: {
           abs: 4, pp: 4, pe: 4, hdpe: 4, ldpe: 4,
           'pc-abs': 3, 'pp-abs': 3, 'transparent-abs': 3, 'fr-abs': 3,
+          'pc-pbt': 2, asa: 4, hips: 4,
         },
       },
       {
@@ -161,6 +190,7 @@ export const branchQuestions: WizardQuestion[] = [
         weight: {
           abs: 4, 'pp-abs': 4,
           'pc-abs': 3, 'transparent-abs': 3,
+          'pc-pbt': 2, asa: 4, hips: 3,
         },
       },
       {
@@ -196,7 +226,7 @@ export const branchQuestions: WizardQuestion[] = [
         weight: {
           pc: 4, pmma: 4, pet: 4,
           pom: 3, pa: 3, pbt: 3,
-          pla: 1,
+          pla: 1, 'pc-pbt': 2, 'pa-abs': 3,
         },
       },
       {
@@ -204,6 +234,7 @@ export const branchQuestions: WizardQuestion[] = [
         weight: {
           abs: 4, 'fr-abs': 4, pvc: 3,
           'pc-abs': 2, 'pp-abs': 2, 'transparent-abs': 2,
+          asa: 4, hips: 3,
         },
       },
       {
@@ -235,6 +266,7 @@ export const branchQuestions: WizardQuestion[] = [
         weight: {
           pc: 3, abs: 3, 'pc-abs': 3, 'pp-abs': 3, 'transparent-abs': 3,
           pa: 3, ps: 3, pmma: 3, pet: 3, 'fr-abs': 3, pla: 3, pbt: 3,
+          'pc-pbt': 3, 'pa-abs': 3, asa: 3, hips: 3,
         },
       },
       {
@@ -250,39 +282,39 @@ export const branchQuestions: WizardQuestion[] = [
 export const expertTags: ExpertTagCategory = {
   '燃烧特征': [
     { id: 'spark-gather', label: '火星聚拢', weight: { pc: 4 } },
-    { id: 'spark-spread', label: '火星散开', weight: { abs: 4, 'pc-abs': 3, 'pp-abs': 3, 'transparent-abs': 3, 'fr-abs': 3, ps: 3 } },
+    { id: 'spark-spread', label: '火星散开', weight: { abs: 4, 'pc-abs': 3, 'pp-abs': 3, 'transparent-abs': 3, 'fr-abs': 3, ps: 3, 'pc-pbt': 3, asa: 3, hips: 3 } },
     { id: 'flame-invisible', label: '火焰不可见/极微弱', weight: { 'lead-filled': 5, 'stone-filled': 5 } },
-    { id: 'smoke-heavy', label: '浓黑烟', weight: { abs: 4, ps: 5, 'transparent-abs': 4, 'fr-abs': 3 } },
-    { id: 'flame-blue', label: '蓝色火焰', weight: { pa: 4, pmma: 3, pom: 2 } },
+    { id: 'smoke-heavy', label: '浓黑烟', weight: { abs: 4, ps: 5, 'transparent-abs': 4, 'fr-abs': 3, asa: 3, hips: 4 } },
+    { id: 'flame-blue', label: '蓝色火焰', weight: { pa: 4, pmma: 3, pom: 2, 'pa-abs': 3 } },
     { id: 'flame-green-edge', label: '火焰绿边', weight: { pvc: 5 } },
     { id: 'self-extinguish', label: '离火即灭', weight: { pvc: 5, 'fr-abs': 5, pbt: 4, pc: 2, pa: 2, pet: 2 } },
     { id: 'candle-smell', label: '蜡烛/石蜡味', weight: { pe: 4, hdpe: 4, ldpe: 4, pp: 3 } },
-    { id: 'rubber-smell', label: '橡胶臭味', weight: { abs: 5, pa: 4, 'fr-abs': 3, 'pp-abs': 3, 'transparent-abs': 3, 'pc-abs': 2 } },
+    { id: 'rubber-smell', label: '橡胶臭味', weight: { abs: 5, pa: 4, 'fr-abs': 3, 'pp-abs': 3, 'transparent-abs': 3, 'pc-abs': 2, 'pa-abs': 3, asa: 3 } },
     { id: 'pungent-smell', label: '刺鼻辣眼', weight: { pom: 5, pvc: 5 } },
-    { id: 'sweet-smell', label: '甜味/果香', weight: { pc: 4, pmma: 4, ps: 3, pla: 3, pet: 2, pbt: 2 } },
+    { id: 'sweet-smell', label: '甜味/果香', weight: { pc: 4, pmma: 4, ps: 3, pla: 3, pet: 2, pbt: 2, 'pc-pbt': 3, hips: 3 } },
   ],
   '物理感官': [
-    { id: 'sound-crisp', label: '金属脆声', weight: { pc: 4, pom: 4, pmma: 4, ps: 4, pet: 4, pa: 4, pla: 4, pbt: 4 } },
-    { id: 'sound-dull', label: '沉闷声', weight: { abs: 4, pp: 4, pe: 4, hdpe: 4, ldpe: 4, 'pc-abs': 3, 'pp-abs': 3, 'transparent-abs': 3, 'fr-abs': 3 } },
+    { id: 'sound-crisp', label: '金属脆声', weight: { pc: 4, pom: 4, pmma: 4, ps: 4, pet: 4, pa: 4, pla: 4, pbt: 4, 'pa-abs': 3 } },
+    { id: 'sound-dull', label: '沉闷声', weight: { abs: 4, pp: 4, pe: 4, hdpe: 4, ldpe: 4, 'pc-abs': 3, 'pp-abs': 3, 'transparent-abs': 3, 'fr-abs': 3, 'pc-pbt': 2, asa: 4, hips: 4 } },
     { id: 'sound-dead', label: '敲击死沉', weight: { 'lead-filled': 5, 'stone-filled': 5 } },
     { id: 'texture-waxy', label: '蜡质手感', weight: { pp: 5, pe: 5, hdpe: 4, ldpe: 4 } },
-    { id: 'bend-white', label: '折痕发白', weight: { abs: 4, 'pp-abs': 4, 'transparent-abs': 3, 'pc-abs': 3 } },
+    { id: 'bend-white', label: '折痕发白', weight: { abs: 4, 'pp-abs': 4, 'transparent-abs': 3, 'pc-abs': 3, 'pc-pbt': 2, asa: 4, hips: 3 } },
     { id: 'bend-flexible', label: '可弯折不断', weight: { pp: 5, pe: 5, hdpe: 4, ldpe: 4 } },
-    { id: 'texture-glossy', label: '高光泽', weight: { pc: 4, pmma: 4, pet: 4, pom: 3, pa: 3, pbt: 3 } },
+    { id: 'texture-glossy', label: '高光泽', weight: { pc: 4, pmma: 4, pet: 4, pom: 3, pa: 3, pbt: 3, 'pc-pbt': 2, 'pa-abs': 3 } },
     { id: 'brittle', label: '易碎', weight: { ps: 4, pmma: 4, pla: 4, 'lead-filled': 4, 'stone-filled': 4 } },
     { id: 'wood-texture', label: '木质纹理', weight: { 'lead-filled': 5, 'stone-filled': 5 } },
-    { id: 'matte-surface', label: '哑光表面', weight: { abs: 4, 'fr-abs': 4, pvc: 3, 'pc-abs': 2, 'pp-abs': 2, 'transparent-abs': 2 } },
+    { id: 'matte-surface', label: '哑光表面', weight: { abs: 4, 'fr-abs': 4, pvc: 3, 'pc-abs': 2, 'pp-abs': 2, 'transparent-abs': 2, asa: 4, hips: 3 } },
   ],
   '重量密度': [
     { id: 'weight-heavy', label: '异常沉重', weight: { pom: 4, 'lead-filled': 5, 'stone-filled': 5, pvc: 3 } },
-    { id: 'weight-normal', label: '常规重量', weight: { pc: 3, abs: 3, 'pc-abs': 3, 'pp-abs': 3, 'transparent-abs': 3, pa: 3, ps: 3, pmma: 3, pet: 3, 'fr-abs': 3, pla: 3, pbt: 3 } },
+    { id: 'weight-normal', label: '常规重量', weight: { pc: 3, abs: 3, 'pc-abs': 3, 'pp-abs': 3, 'transparent-abs': 3, pa: 3, ps: 3, pmma: 3, pet: 3, 'fr-abs': 3, pla: 3, pbt: 3, 'pc-pbt': 3, 'pa-abs': 3, asa: 3, hips: 3 } },
     { id: 'weight-light', label: '异常轻/浮水', weight: { pp: 5, pe: 5, hdpe: 4, ldpe: 4 } },
-    { id: 'sinks-in-water', label: '沉水', weight: { 'lead-filled': 5, 'stone-filled': 5, pom: 4, pvc: 4, pet: 3, pc: 2, pa: 2, ps: 2, pmma: 2, pbt: 2, pla: 2, abs: 2, 'pc-abs': 2, 'pp-abs': 2, 'transparent-abs': 2, 'fr-abs': 2 } },
+    { id: 'sinks-in-water', label: '沉水', weight: { 'lead-filled': 5, 'stone-filled': 5, pom: 4, pvc: 4, pet: 3, pc: 2, pa: 2, ps: 2, pmma: 2, pbt: 2, pla: 2, abs: 2, 'pc-abs': 2, 'pp-abs': 2, 'transparent-abs': 2, 'fr-abs': 2, 'pc-pbt': 2, 'pa-abs': 2, asa: 2, hips: 2 } },
   ],
   '外观特征': [
     { id: 'transparent-high', label: '高透明', weight: { pc: 4, pmma: 4, pet: 3, ps: 3 } },
     { id: 'transparent-medium', label: '半透明', weight: { pp: 2, pe: 2, hdpe: 2, ldpe: 2, pla: 2, pa: 2 } },
-    { id: 'opaque', label: '不透明', weight: { abs: 4, 'fr-abs': 4, pbt: 4, 'lead-filled': 4, 'stone-filled': 4, pom: 3, pvc: 3, 'pc-abs': 3, 'pp-abs': 3, 'transparent-abs': 2 } },
+    { id: 'opaque', label: '不透明', weight: { abs: 4, 'fr-abs': 4, pbt: 4, 'lead-filled': 4, 'stone-filled': 4, pom: 3, pvc: 3, 'pc-abs': 3, 'pp-abs': 3, 'transparent-abs': 2, 'pc-pbt': 4, 'pa-abs': 4, asa: 4, hips: 3 } },
     { id: 'self-lubricating', label: '自润滑', weight: { pom: 4, pa: 3, pbt: 3 } },
     { id: 'white-ivory', label: '乳白/象牙白', weight: { pom: 3, pa: 3, pbt: 3, abs: 2, pla: 2, pp: 2, pe: 2, hdpe: 2, ldpe: 2 } },
   ],

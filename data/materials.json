@@ -6,6 +6,7 @@
     "slang": "磁碳",
     "density": 1.2,
     "characteristics": [
+      "高透明",
       "透明度高，透光率接近玻璃",
       "耐冲击性能优异，不易碎裂",
       "耐热性好，可在120℃下长期使用",
@@ -75,6 +76,7 @@
     "slang": "合金料",
     "density": 1.15,
     "characteristics": [
+      "不透明",
       "兼具PC的耐热性和ABS的加工性",
       "力学性能优异，综合平衡性好",
       "抗冲击强度高",
@@ -143,6 +145,7 @@
     "slang": "透明ABS",
     "density": 1.05,
     "characteristics": [
+      "透明度中等",
       "透明度中等，非完全透明",
       "兼具ABS的韧性和透明度",
       "耐冲击性好",
@@ -687,5 +690,67 @@
     "currentPrice": 25000,
     "priceUnit": "元/吨",
     "priceChange": 1.8
+  },
+  {
+    "id": "pc-pbt",
+    "name": "PC/PBT",
+    "fullName": "PC/PBT合金",
+    "slang": "PC/PBT合金",
+    "density": 1.2,
+    "characteristics": ["耐化学药品", "优异低温冲击", "良好表面外观", "耐热"],
+    "burnCharacteristics": ["火星散开", "黄色火焰", "中等黑烟", "甜味"],
+    "physicalCharacteristics": ["介于金属声和沉闷声之间", "表面光滑", "折痕轻微发白"],
+    "densityCharacteristics": ["常规重量"],
+    "safetyLevel": "safe",
+    "currentPrice": 19500,
+    "priceUnit": "元/吨",
+    "priceChange": 0.4
+  },
+  {
+    "id": "pa-abs",
+    "name": "PA/ABS",
+    "fullName": "尼龙/ABS合金",
+    "slang": "PA/ABS合金",
+    "density": 1.1,
+    "characteristics": ["高强度", "耐热", "耐油", "表面光泽好"],
+    "burnCharacteristics": ["蓝色火焰", "少量黑烟", "烧焦味混合橡胶味", "滴落"],
+    "physicalCharacteristics": ["金属脆声", "表面有光泽", "韧性极强"],
+    "densityCharacteristics": ["常规重量"],
+    "safetyLevel": "caution",
+    "safetyWarning": "燃烧产生混合烟雾，注意通风",
+    "currentPrice": 23000,
+    "priceUnit": "元/吨",
+    "priceChange": 1.5
+  },
+  {
+    "id": "asa",
+    "name": "ASA",
+    "fullName": "丙烯腈-苯乙烯-丙烯酸酯",
+    "slang": "ASA",
+    "density": 1.07,
+    "characteristics": ["不透明", "极佳耐候性", "抗UV黄变", "类似ABS但耐候"],
+    "burnCharacteristics": ["火星散开", "黄色火焰", "黑烟", "橡胶味"],
+    "physicalCharacteristics": ["沉闷声", "表面哑光", "折痕发白"],
+    "densityCharacteristics": ["常规重量"],
+    "safetyLevel": "safe",
+    "currentPrice": 21000,
+    "priceUnit": "元/吨",
+    "priceChange": 0.3
+  },
+  {
+    "id": "hips",
+    "name": "HIPS",
+    "fullName": "高抗冲聚苯乙烯",
+    "slang": "改苯",
+    "density": 1.04,
+    "characteristics": ["不透明", "乳白色", "抗冲击", "易加工"],
+    "burnCharacteristics": ["火星散开", "橙黄色火焰", "浓黑烟", "苯乙烯甜味"],
+    "physicalCharacteristics": ["沉闷声", "表面哑光", "折痕发白", "韧性较好"],
+    "densityCharacteristics": ["常规重量"],
+    "safetyLevel": "caution",
+    "safetyWarning": "燃烧产生大量黑烟",
+    "currentPrice": 10500,
+    "priceUnit": "元/吨",
+    "priceChange": 0.5
   }
 ]
