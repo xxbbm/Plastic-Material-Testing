@@ -23,7 +23,7 @@
 
 ```bash
 cat > .env.local << 'EOF'
-DEEPSEEK_API_KEY=sk-89e00d5b1c3847d08f612f72af388513
+DEEPSEEK_API_KEY=你的DeepSeek_API_Key
 ADMIN_PASSWORD=admin123
 EOF
 ```
@@ -491,7 +491,7 @@ export interface ChatMessage {
   content: string
 }
 
-const API_KEY = process.env.NEXT_PUBLIC_DEEPSEEK_API_KEY || ''
+const API_KEY = process.env.DEEPSEEK_API_KEY || ''
 const BASE_URL = 'https://api.deepseek.com/v1/chat/completions'
 
 const DEFAULT_SYSTEM_PROMPT = `你是塑料材质识别专家。用户描述塑料特征，请给出最可能的材质（含行业黑话）、可能性排序、判定依据。回答简洁专业，不超过100字。`

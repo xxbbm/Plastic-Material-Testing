@@ -315,7 +315,7 @@ npm start            # http://localhost:3000
 
 ### 环境变量（`.env.local`）
 ```
-NEXT_PUBLIC_DEEPSEEK_API_KEY=sk-xxx    # DeepSeek API Key
+DEEPSEEK_API_KEY=sk-xxx    # DeepSeek API Key（服务端，不暴露浏览器）
 ADMIN_PASSWORD=admin123                # 管理后台口令
 ```
 

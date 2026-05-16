@@ -52,7 +52,7 @@ cd plastic-material-id
 
 ```bash
 cat > .env.local << 'EOF'
-NEXT_PUBLIC_DEEPSEEK_API_KEY=你的真实Key
+DEEPSEEK_API_KEY=你的真实Key
 ADMIN_PASSWORD=你的后台口令
 EOF
 ```

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { readFeedback, addFeedback } from '@/lib/feedback-store'
 import { FeedbackEntry } from '@/lib/types'
 import { checkRateLimit } from '@/lib/rate-limit'
+import { isAdmin } from '@/app/api/admin/auth/route'
 
 function getIP(request: NextRequest): string {
   const forwarded = request.headers.get('x-forwarded-for')
@@ -11,6 +12,17 @@ function getIP(request: NextRequest): string {
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
   const userId = searchParams.get('userId')
+
+  // 非管理员只能查自己的反馈
+  if (!isAdmin(request)) {
+    if (!userId) {
+      return NextResponse.json({ error: 'userId 为必填' }, { status: 400 })
+    }
+    const feedback = readFeedback().filter(f => f.userId === userId)
+    return NextResponse.json(feedback)
+  }
+
+  // 管理员可以查全部或按userId筛选
   let feedback = readFeedback()
   if (userId) {
     feedback = feedback.filter(f => f.userId === userId)

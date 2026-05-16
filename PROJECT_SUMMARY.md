@@ -116,7 +116,7 @@ PC/PBT合金, PA/ABS合金, ASA, HIPS(改苯)
 
 ### 关键修复历程
 
-1. **AI API Key 变量名不匹配** — `DEEPSEEK_API_KEY` → `NEXT_PUBLIC_DEEPSEEK_API_KEY`
+1. **AI API Key 服务端中转** — 改为 `DEEPSEEK_API_KEY`（无 `NEXT_PUBLIC_` 前缀），通过服务端 `/api/chat` 代理调用，不暴露到浏览器
 2. **检测权重全量重建** — 基于权威塑料燃烧特征数据重写全部权重矩阵
 3. **合金误判为纯料** — 新增透明度外观题 + 扩充合金种类
 4. **AI 追问优化** — 防止重复提问 + 强制结论 + 结果错误重判按钮
@@ -134,7 +134,7 @@ npm run dev
 
 环境变量（`.env.local`）：
 ```
-NEXT_PUBLIC_DEEPSEEK_API_KEY=sk-xxx
+DEEPSEEK_API_KEY=sk-xxx
 ADMIN_PASSWORD=admin123
 ```
 

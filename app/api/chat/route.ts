@@ -91,10 +91,10 @@ export async function POST(request: NextRequest) {
     })
 
     if (!response.ok) {
-      const errorText = await response.text()
+      console.error(`[DeepSeek API] ${response.status}: ${await response.text().catch(() => 'unknown')}`)
       return NextResponse.json(
-        { error: `DeepSeek API error ${response.status}: ${errorText}` },
-        { status: response.status }
+        { error: 'AI 服务暂时不可用，请稍后重试' },
+        { status: 502 }
       )
     }
 

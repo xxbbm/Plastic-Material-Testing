@@ -236,6 +236,12 @@ export default function MaterialsAdmin() {
             </div>
 
             <div className="space-y-4 max-h-[70vh] overflow-y-auto pr-1">
+              {/* 提示：新增材质不会自动出现在检测向导和专家模式中 */}
+              {editingMaterial.id && !['pc','abs','pc-abs','pp-abs','transparent-abs','pom','pp','pe','hdpe','ldpe','pa','ps','pet','pvc','pmma','fr-abs','lead-filled','stone-filled','pla','pbt','pc-pbt','pa-abs','asa','hips'].includes(editingMaterial.id) && (
+                <div className="p-3 rounded-lg bg-[#F59E0B]/10 border border-[#F59E0B]/20 text-[#F59E0B] text-xs leading-relaxed">
+                  新增材质会出现在百科字典中，但不会出现在「详细检测」和「专家模式」的权重匹配中。如需加入检测引擎，请在 <code className="text-[#F59E0B] bg-[#F59E0B]/10 px-1 rounded">lib/wizard-data.ts</code> 中添加对应权重。
+                </div>
+              )}
               {/* ID */}
               <Field label="ID" required>
                 <input

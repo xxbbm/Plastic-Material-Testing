@@ -47,7 +47,7 @@ export function ResultPage({ result, onNavigate, onSave, onExport }: ResultPageP
 
   return (
     <>
-      {/* Safety Overlay for POM */}
+      {/* Safety Overlay for dangerous materials */}
       <AnimatePresence>
         {showSafetyOverlay && isDangerous && !safetAcknowledged && (
           <motion.div
@@ -70,7 +70,7 @@ export function ResultPage({ result, onNavigate, onSave, onExport }: ResultPageP
               </h1>
               
               <h2 className="text-xl font-semibold text-white/90 mb-4">
-                检测到 POM (赛钢)
+                检测到 {result.material.name}{result.material.slang ? ` (${result.material.slang})` : ''}
               </h2>
               
               <div className="space-y-3 mb-8 text-white/90">

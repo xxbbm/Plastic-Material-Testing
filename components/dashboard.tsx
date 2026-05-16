@@ -32,34 +32,42 @@ interface DashboardProps {
   historyCount: number
 }
 
-const actionCards = [
+const actionCards: {
+  id: string
+  title: string
+  subtitle: string
+  icon: typeof MessageSquare
+  page: PageType
+  disabled?: boolean
+  badge?: string
+}[] = [
   {
     id: 'ai',
     title: 'AI 咨询',
     subtitle: 'DeepSeek 智能识别',
     icon: MessageSquare,
-    page: 'ai-chat' as PageType,
+    page: 'ai-chat',
   },
   {
     id: 'wizard',
     title: '详细检测',
     subtitle: '分步决策逻辑 (含补偿机制)',
     icon: Search,
-    page: 'wizard' as PageType,
+    page: 'wizard',
   },
   {
     id: 'expert',
     title: '专家模式',
     subtitle: '快速标签矩阵 (火星/声音/纹理)',
     icon: Zap,
-    page: 'expert' as PageType,
+    page: 'expert',
   },
   {
     id: 'camera',
     title: '拍照存样',
     subtitle: '拍摄并备注',
     icon: Camera,
-    page: 'photo-log' as PageType,
+    page: 'photo-log',
   },
 ]
 
@@ -81,6 +89,7 @@ export function Dashboard({ onNavigate, onExportLog, historyCount }: DashboardPr
         ).join('；')
         askDeepSeek(
           `以下是当前塑料回收市场参考价格：${priceList}。请根据这些数据做一个简洁的行情简评，分析涨跌原因和趋势，不超过120字。`,
+          undefined,
           { mode: 'price' }
         ).then(result => {
           setAnalysisText(result)
@@ -100,7 +109,7 @@ export function Dashboard({ onNavigate, onExportLog, historyCount }: DashboardPr
     try {
       const priceList = marketPrices.map(m => `${m.name} ¥${m.price}/吨 ${m.change > 0 ? '+' : ''}${m.change}%`).join('；')
       const prompt = `以下是当前塑料回收市场参考价格：${priceList}。请根据这些数据做一个简洁的行情简评，分析涨跌原因和趋势，不超过120字。`
-      const result = await askDeepSeek(prompt, { mode: 'price' })
+      const result = await askDeepSeek(prompt, undefined, { mode: 'price' })
       setAnalysisText(result)
     } catch {
       setAnalysisText('行情分析暂时不可用，请稍后重试')
