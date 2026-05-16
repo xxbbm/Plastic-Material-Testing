@@ -9,7 +9,7 @@ export function AdminAuth({ children }: { children: React.ReactNode }) {
   const [error, setError] = useState(false)
 
   useEffect(() => {
-    const auth = document.cookie.includes('admin_auth=1')
+    const auth = document.cookie.includes('admin_token')
     setAuthenticated(auth)
   }, [])
 

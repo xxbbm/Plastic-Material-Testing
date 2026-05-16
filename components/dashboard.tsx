@@ -150,7 +150,11 @@ export function Dashboard({ onNavigate, onExportLog, historyCount }: DashboardPr
           >
             <BookOpen className="w-5 h-5" />
           </button>
-          <button className="p-2.5 rounded-lg bg-[#1A1A1D] hover:bg-[#27272A] transition-colors duration-250 active:scale-95">
+          <button
+            onClick={() => window.location.href = '/admin'}
+            className="p-2.5 rounded-lg bg-[#1A1A1D] hover:bg-[#27272A] transition-colors duration-250 active:scale-95"
+            title="管理后台"
+          >
             <Settings className="w-5 h-5" />
           </button>
         </div>

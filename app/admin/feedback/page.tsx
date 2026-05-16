@@ -70,8 +70,8 @@ export default function FeedbackAdmin() {
       setProcessingId(null)
       setAdminNote('')
       fetchFeedback()
-    } catch (e: any) {
-      toast.error(e.message || '处理失败')
+    } catch (e: unknown) {
+      toast.error(e instanceof Error ? e.message : '处理失败')
     } finally {
       setSaving(false)
     }
@@ -87,8 +87,8 @@ export default function FeedbackAdmin() {
       }
       toast.success('反馈已删除')
       fetchFeedback()
-    } catch (e: any) {
-      toast.error(e.message || '删除失败')
+    } catch (e: unknown) {
+      toast.error(e instanceof Error ? e.message : '删除失败')
     }
   }
 

@@ -9,10 +9,8 @@ import {
   RotateCcw, 
   AlertTriangle,
   Skull,
-  X,
   Check,
   Flame,
-  Eye,
   EyeOff
 } from 'lucide-react'
 import { PageType } from '@/lib/types'

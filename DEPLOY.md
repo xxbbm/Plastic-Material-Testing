@@ -53,7 +53,7 @@ cd plastic-material-id
 ```bash
 cat > .env.local << 'EOF'
 DEEPSEEK_API_KEY=你的真实Key
-ADMIN_PASSWORD=你的后台口令
+ADMIN_PASSWORD=你的后台口令   # 必填，不设则无法登录管理后台
 EOF
 ```
 
@@ -151,7 +151,7 @@ sudo certbot --nginx -d 你的域名
 ### 2. 限流保护
 
 已内置：
-- `/api/chat` 每个 IP 每分钟最多 10 次
+- `/api/chat` 每个 IP 每分钟最多 20 次
 - `/api/feedback` 每个 IP 每分钟最多 3 条
 - 超出返回 429 "请求太频繁"
 

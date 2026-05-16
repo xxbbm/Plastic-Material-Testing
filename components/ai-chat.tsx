@@ -62,7 +62,6 @@ export function AIChat({ onNavigate }: AIChatProps) {
   const [isLoading, setIsLoading] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
-  const [hasResult, setHasResult] = useState(false)
   const [sessions, setSessions] = useState<ChatSession[]>([])
   const [activeSessionId, setActiveSessionId] = useState<string>('')
   const [showSessionList, setShowSessionList] = useState(false)

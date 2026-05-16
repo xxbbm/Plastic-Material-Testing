@@ -39,6 +39,7 @@ ADMIN_PASSWORD=你设置的后台管理口令
 ```
 
 > DeepSeek API Key 去 https://platform.deepseek.com 注册就能免费领。
+> `ADMIN_PASSWORD` 为必填，不设则管理后台无法登录。
 
 ### 4. 安装依赖
 

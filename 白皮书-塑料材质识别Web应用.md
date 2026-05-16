@@ -269,7 +269,7 @@ data/feedback.json ← 写入
 
 | 关注点 | 措施 |
 |--------|------|
-| DeepSeek API Key | 客户端变量 `NEXT_PUBLIC_` 前缀，只在前端网络请求中使用，不与第三方共享 |
+| DeepSeek API Key | 服务端变量 `DEEPSEEK_API_KEY`，通过 `/api/chat` 代理调用，不暴露到浏览器 |
 | 管理后台口令 | `.env.local` 配置 + httpOnly cookie，24 小时过期 |
 | XSS | React 默认转义，无 `dangerouslySetInnerHTML` |
 | 用户数据隐私 | 检测历史/拍照存于浏览器 localStorage，不经过服务器 |

@@ -48,6 +48,7 @@
 
 | 端点 | 文件 | 功能 |
 |------|------|------|
+| `/api/chat` | `app/api/chat/route.ts` | POST AI聊天代理 (限流20次/分, 5分钟缓存) |
 | `/api/materials` | `app/api/materials/route.ts` | GET 全部 / POST 新增 |
 | `/api/materials/[id]` | `app/api/materials/[id]/route.ts` | GET/PUT/DELETE 单个 |
 | `/api/feedback` | `app/api/feedback/route.ts` | GET(按userId筛选) / POST 提交 |

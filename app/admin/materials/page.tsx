@@ -101,8 +101,8 @@ export default function MaterialsAdmin() {
       toast.success(existing ? '材质已更新' : '材质已添加')
       closeModal()
       fetchMaterials()
-    } catch (e: any) {
-      toast.error(e.message || '操作失败')
+    } catch (e: unknown) {
+      toast.error(e instanceof Error ? e.message : '操作失败')
     } finally {
       setSaving(false)
     }
@@ -118,8 +118,8 @@ export default function MaterialsAdmin() {
       }
       toast.success('材质已删除')
       fetchMaterials()
-    } catch (e: any) {
-      toast.error(e.message || '删除失败')
+    } catch (e: unknown) {
+      toast.error(e instanceof Error ? e.message : '删除失败')
     }
   }
 
