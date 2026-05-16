@@ -2,7 +2,7 @@
 
 ## 概述
 
-基于 v0 前端（Next.js 16 + React 19 + Tailwind 4 + shadcn/ui）进行混合方案改造：保留已有 UI 组件和动画，改造检测流程为分支决策+加权评分，补齐 AI 聊天、拍照存样、localStorage 持久化，扩展材质数据库从 8 种到 20+ 种。
+基于 v0 前端（Next.js 16 + React 19 + Tailwind 4 + shadcn/ui）进行混合方案改造：保留已有 UI 组件和动画，改造检测流程为分支决策+加权评分，补齐 AI 聊天、拍照存样、localStorage 持久化、管理后台与反馈系统，扩展材质数据库从 8 种到 20+ 种。
 
 ## 一、整体架构
 
@@ -17,15 +17,24 @@
 **需要改造：**
 - `detailed-wizard.tsx` — 从线性 7 步问卷改为"先分支后打分"混合检测
 - `dictionary-history.tsx` — 拆分为 Encyclopedia 和 History 两个独立页面
-- `lib/plastic-data.ts` — 材质从 8 种扩展到 20+ 种，补全特征数据
+- `lib/plastic-data.ts` — 材质从 8 种扩展到 20+ 种，数据迁移到 `data/materials.json`
 
-**全新开发：**
+**全新开发（前端）：**
 - `components/ai-chat.tsx` — DeepSeek AI 聊天
 - `components/photo-log.tsx` — 拍照存样
+- `components/feedback-form.tsx` — 用户反馈提交（未知材质/Bug 报告）
+- `components/feedback-history.tsx` — 用户反馈历史（含处理状态）
 - `lib/deepseek.ts` — DeepSeek API 封装
 - `lib/storage.ts` — localStorage 持久化层
 - `components/encyclopedia.tsx` — 百科字典（从 dictionary-history 拆出）
 - `components/history.tsx` — 检测历史（从 dictionary-history 拆出）
+
+**全新开发（API Routes + 管理后台）：**
+- `data/materials.json` — 材质数据库（JSON 文件存储）
+- `data/feedback.json` — 用户反馈收集（JSON 文件存储）
+- `app/api/materials/` — 材质 CRUD API
+- `app/api/feedback/` — 反馈提交/查看/处理 API
+- `app/admin/` — 管理后台页面（口令保护）
 
 ## 二、检测流程（核心改造）
 
@@ -127,18 +136,61 @@
 - Encyclopedia — 搜索框（实时过滤） + 材质列表 + 点击展开详情
 - History — 检测记录列表 + 一键导出 + 清空（需二次确认）
 
-## 六、技术约束
+## 六、管理后台
 
-- 不引入后端，纯前端运行
-- DeepSeek API Key 通过 `.env.local` 环境变量配置，不硬编码
-- 所有数据存 localStorage，不清除浏览器数据则持久
+访问 `/admin`，输入口令后进入。暗色主题和主应用一致，复用 shadcn/ui 组件。
+
+### 口令保护
+
+- 在 `.env.local` 中配置 `ADMIN_PASSWORD=xxx`
+- 进入 `/admin` 时校验口令，通过后设置 session cookie
+- 未登录时所有 `/admin/*` 和 `/api/*` 写操作返回 401
+
+### 材质管理 (`/admin/materials`)
+
+- 列表页：搜索、筛选（按安全等级）、排序
+- 新增/编辑表单：名称、全称、行业黑话、密度(g/cm³)、燃烧特征列表、物理特征列表、安全等级、安全提示语、参考价格
+- 删除：二次确认
+- 增删改通过 `/api/materials` 写入 `data/materials.json`，前端自动重载
+
+### 反馈管理 (`/admin/feedback`)
+
+- 反馈列表：按状态筛选（待处理/已处理）、按时间倒序
+- 每条反馈显示：用户描述、提交时间、联系信息（如有）
+- "标记已处理"按钮 + 填写处理备注
+- 删除反馈
+
+## 七、用户反馈系统
+
+### 提交反馈
+
+从 Dashboard 和结果页进入反馈表单：
+- 反馈类型选择：未知材质 / 检测结果不准确 / Bug 报告
+- 描述文本（必填）
+- 联系方式（可选，如微信号）
+- 提交到 `/api/feedback`
+
+### 查看反馈历史
+
+用户端反馈历史页（`/feedback-history`）：
+- 列出该用户提交的所有反馈（通过 localStorage 中的 userId 过滤）
+- 每条显示：类型、描述、提交时间、处理状态（待处理/已处理/处理备注）
+- 管理员标记已处理后，用户再次打开会看到状态更新 + 处理备注
+
+身份追踪：首次访问时生成 UUID 存 localStorage 的 `userId`，所有反馈请求携带此 ID。
+
+## 八、技术约束
+
+- 数据存储：材质和反馈数据用服务端 JSON 文件（`data/` 目录），用户个人数据（检测历史、拍照存样）用 localStorage
+- DeepSeek API Key 通过 `.env.local` 的 `DEEPSEEK_API_KEY` 读取
+- 管理后台口令通过 `.env.local` 的 `ADMIN_PASSWORD` 配置
 - 保持暗色主题（`#0A0A0B` 底色）
 - 动画保持 Framer Motion + Tailwind transition
 
-## 七、不做的事项
+## 九、不做的事项
 
 - 微信小程序转换
-- 后端服务/数据库
-- 用户登录系统
+- 数据库（MySQL/PostgreSQL 等）— JSON 文件足够
+- 用户登录/注册系统 — 管理后台用口令，用户端用 UUID 追踪
 - 多设备同步
 - 联网搜索（无搜索 API Key，仅预留入口）
