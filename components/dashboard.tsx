@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import {
   History,
@@ -16,10 +16,14 @@ import {
   Activity,
   Download,
   Clock,
-  BookOpen
+  BookOpen,
+  Loader2,
+  RefreshCw,
 } from 'lucide-react'
+import { toast } from 'sonner'
 import { PageType } from '@/lib/types'
 import { marketPrices } from '@/lib/plastic-data'
+import { askDeepSeek } from '@/lib/deepseek'
 import { cn } from '@/lib/utils'
 
 interface DashboardProps {
@@ -61,6 +65,25 @@ const actionCards = [
 
 export function Dashboard({ onNavigate, onExportLog, historyCount }: DashboardProps) {
   const [showAnalysis, setShowAnalysis] = useState(false)
+  const [analysisLoading, setAnalysisLoading] = useState(false)
+  const [analysisText, setAnalysisText] = useState('')
+
+  const handleFetchAnalysis = useCallback(async () => {
+    setShowAnalysis(true)
+    if (analysisText) return
+    setAnalysisLoading(true)
+    try {
+      const priceList = marketPrices.map(m => `${m.name} ¥${m.price}/吨 ${m.change > 0 ? '+' : ''}${m.change}%`).join('；')
+      const prompt = `以下是当前塑料回收市场参考价格：${priceList}。请根据这些数据做一个简洁的行情简评，分析涨跌原因和趋势，不超过120字。`
+      const result = await askDeepSeek(prompt, { mode: 'price' })
+      setAnalysisText(result)
+    } catch {
+      setAnalysisText('行情分析暂时不可用，请稍后重试')
+      toast.error('获取行情分析失败')
+    } finally {
+      setAnalysisLoading(false)
+    }
+  }, [analysisText])
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -121,14 +144,29 @@ export function Dashboard({ onNavigate, onExportLog, historyCount }: DashboardPr
       {/* Price Analysis Card */}
       <div className="px-4 pt-4">
         <button
-          onClick={() => setShowAnalysis(!showAnalysis)}
+          onClick={() => {
+            if (!showAnalysis) handleFetchAnalysis()
+            else setShowAnalysis(false)
+          }}
           className="w-full flex items-center justify-between p-3 rounded-lg bg-[#111113] border border-[#27272A] hover:border-[#3F3F46] transition-colors duration-250"
         >
           <div className="flex items-center gap-2">
             <Activity className="w-4 h-4 text-[#10B981]" />
-            <span className="text-sm font-medium">今日行情简评</span>
+            <span className="text-sm font-medium">AI 行情简评</span>
+            {analysisLoading && <Loader2 className="w-3.5 h-3.5 animate-spin text-[#10B981]" />}
           </div>
-          {showAnalysis ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+          <div className="flex items-center gap-1">
+            {analysisText && (
+              <button
+                onClick={(e) => { e.stopPropagation(); setAnalysisText(''); }}
+                className="p-1 rounded hover:bg-[#27272A] transition-colors"
+                title="刷新分析"
+              >
+                <RefreshCw className="w-3.5 h-3.5 text-[#71717A]" />
+              </button>
+            )}
+            {showAnalysis ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+          </div>
         </button>
         {showAnalysis && (
           <motion.div
@@ -138,7 +176,14 @@ export function Dashboard({ onNavigate, onExportLog, historyCount }: DashboardPr
             transition={{ duration: 0.25 }}
             className="mt-2 p-3 rounded-lg bg-[#111113] border border-[#27272A] text-sm text-[#A1A1AA] leading-relaxed"
           >
-            受原油价格波动影响，PC 料小幅上涨 1.2%，PA 尼龙受需求拉动涨幅最大达 2.1%。PP/PE 类通用料延续下跌趋势，市场观望情绪浓厚。建议关注 POM 赛钢价格走势，近期订单增加明显。
+            {analysisLoading ? (
+              <div className="flex items-center gap-2 text-[#71717A]">
+                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                DeepSeek 正在分析市场行情...
+              </div>
+            ) : (
+              analysisText || '点击展开获取 AI 行情分析'
+            )}
           </motion.div>
         )}
       </div>

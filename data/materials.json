@@ -398,7 +398,7 @@
     "safetyWarning": "燃烧时产生大量黑烟和苯乙烯气体，需在通风良好处操作",
     "currentPrice": 9500,
     "priceUnit": "元/吨",
-    "priceChange": -1.0
+    "priceChange": -1
   },
   {
     "id": "pet",
@@ -431,7 +431,7 @@
     "safetyLevel": "safe",
     "currentPrice": 7200,
     "priceUnit": "元/吨",
-    "priceChange": 1.0
+    "priceChange": 1
   },
   {
     "id": "pvc",
@@ -633,7 +633,7 @@
     "safetyLevel": "safe",
     "currentPrice": 28000,
     "priceUnit": "元/吨",
-    "priceChange": 3.0
+    "priceChange": 3
   },
   {
     "id": "pbt",

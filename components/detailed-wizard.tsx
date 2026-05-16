@@ -73,20 +73,24 @@ export function DetailedWizard({
       }
     })
 
-    let maxScore = 0
-    let topId = 'pc'
-    Object.entries(scores).forEach(([id, score]) => {
-      if (score > maxScore) {
-        maxScore = score
-        topId = id
-      }
-    })
+    // Find top and runner-up
+    const sorted = Object.entries(scores).sort(([, a], [, b]) => b - a)
+    const maxScore = sorted[0]?.[1] ?? 0
+    const runnerUpScore = sorted[1]?.[1] ?? 0
+    const topId = sorted[0]?.[0] ?? 'pc'
 
+    // Gap factor: big gap = higher confidence
+    const gapFactor = maxScore > 0 ? (maxScore - runnerUpScore) / maxScore : 0
+
+    // Base confidence from score ratio (max possible per question ≈ 4.5)
     const baseConfidence =
-      answeredCount > 0 ? (maxScore / (answeredCount * 3)) * 100 : 0
+      answeredCount > 0 ? (maxScore / (answeredCount * 4.5)) * 100 : 0
+
+    // Blend base confidence with gap factor
+    const blended = baseConfidence * (0.4 + 0.6 * gapFactor)
     const finalConfidence = Math.min(
       100,
-      Math.max(0, baseConfidence - skippedCount * 10),
+      Math.max(0, blended - skippedCount * 10),
     )
 
     return {
