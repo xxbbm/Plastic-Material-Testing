@@ -1,0 +1,671 @@
+[
+  {
+    "id": "pc",
+    "name": "PC",
+    "fullName": "聚碳酸酯",
+    "slang": "磁碳",
+    "density": 1.2,
+    "characteristics": [
+      "透明度高，透光率接近玻璃",
+      "耐冲击性能优异，不易碎裂",
+      "耐热性好，可在120℃下长期使用",
+      "尺寸稳定性好，成型收缩率低"
+    ],
+    "burnCharacteristics": [
+      "火星聚拢，火焰呈黄色",
+      "燃烧速度较慢，离火后缓慢熄灭",
+      "产生少量黑烟",
+      "燃烧时有轻微酚类气味"
+    ],
+    "physicalCharacteristics": [
+      "敲击发出金属脆声",
+      "表面光滑有光泽",
+      "折弯时折痕不明显发白",
+      "质地坚硬"
+    ],
+    "densityCharacteristics": [
+      "密度约1.2，略重于水",
+      "手感重量适中偏重"
+    ],
+    "safetyLevel": "safe",
+    "currentPrice": 15800,
+    "priceUnit": "元/吨",
+    "priceChange": 1.2
+  },
+  {
+    "id": "abs",
+    "name": "ABS",
+    "fullName": "丙烯腈-丁二烯-苯乙烯",
+    "slang": "啊B死",
+    "density": 1.05,
+    "characteristics": [
+      "不透明，表面哑光",
+      "韧性好，耐冲击",
+      "易于加工成型",
+      "尺寸稳定性好"
+    ],
+    "burnCharacteristics": [
+      "火星散开向四周飞溅",
+      "燃烧速度快，持续燃烧",
+      "产生浓密黑烟",
+      "散发橡胶臭味"
+    ],
+    "physicalCharacteristics": [
+      "敲击发出沉闷声",
+      "表面哑光质感",
+      "折弯时折痕明显发白",
+      "有一定韧性，不易折断"
+    ],
+    "densityCharacteristics": [
+      "密度约1.05，接近水的密度",
+      "手感重量适中"
+    ],
+    "safetyLevel": "caution",
+    "safetyWarning": "燃烧时产生刺鼻气味和浓黑烟，注意通风",
+    "currentPrice": 12500,
+    "priceUnit": "元/吨",
+    "priceChange": -0.8
+  },
+  {
+    "id": "pc-abs",
+    "name": "PC/ABS",
+    "fullName": "PC/ABS合金",
+    "slang": "合金料",
+    "density": 1.15,
+    "characteristics": [
+      "兼具PC的耐热性和ABS的加工性",
+      "力学性能优异，综合平衡性好",
+      "抗冲击强度高",
+      "表面质量好，可喷涂"
+    ],
+    "burnCharacteristics": [
+      "火星散开",
+      "燃烧速度中等",
+      "产生中等黑烟",
+      "有混合焦糊气味"
+    ],
+    "physicalCharacteristics": [
+      "敲击声介于金属声和沉闷声之间",
+      "折弯时折痕轻微发白",
+      "表面光滑度中等",
+      "韧性较好"
+    ],
+    "densityCharacteristics": [
+      "密度约1.15，略重于水",
+      "手感重量适中偏重"
+    ],
+    "safetyLevel": "safe",
+    "currentPrice": 14200,
+    "priceUnit": "元/吨",
+    "priceChange": 0.5
+  },
+  {
+    "id": "pp-abs",
+    "name": "PP+ABS",
+    "fullName": "PP/ABS合金",
+    "slang": "合金",
+    "density": 1.05,
+    "characteristics": [
+      "兼具PP的轻量和ABS的刚性",
+      "耐化学腐蚀性好",
+      "低温韧性优于纯PP",
+      "价格相对经济"
+    ],
+    "burnCharacteristics": [
+      "火星散开",
+      "燃烧有橡胶臭味",
+      "黑烟中等偏浓",
+      "燃烧后残留较多"
+    ],
+    "physicalCharacteristics": [
+      "敲击发出偏沉闷声",
+      "折弯时折痕明显发白",
+      "表面哑光",
+      "韧性好，不易断裂"
+    ],
+    "densityCharacteristics": [
+      "密度约1.05",
+      "手感重量适中偏轻"
+    ],
+    "safetyLevel": "safe",
+    "currentPrice": 10800,
+    "priceUnit": "元/吨",
+    "priceChange": -0.3
+  },
+  {
+    "id": "transparent-abs",
+    "name": "透明ABS",
+    "fullName": "透明ABS",
+    "slang": "透明ABS",
+    "density": 1.05,
+    "characteristics": [
+      "透明度中等，非完全透明",
+      "兼具ABS的韧性和透明度",
+      "耐冲击性好",
+      "比普通ABS外观更高档"
+    ],
+    "burnCharacteristics": [
+      "火星散开",
+      "产生浓密黑烟",
+      "燃烧速度快",
+      "有橡胶臭味"
+    ],
+    "physicalCharacteristics": [
+      "敲击声偏沉闷",
+      "折弯发白",
+      "表面较光滑",
+      "透光但不完全清晰"
+    ],
+    "densityCharacteristics": [
+      "密度约1.05",
+      "手感重量适中"
+    ],
+    "safetyLevel": "caution",
+    "safetyWarning": "燃烧时产生浓黑烟，注意通风",
+    "currentPrice": 15800,
+    "priceUnit": "元/吨",
+    "priceChange": 0
+  },
+  {
+    "id": "pom",
+    "name": "POM",
+    "fullName": "聚甲醛",
+    "slang": "赛钢",
+    "density": 1.41,
+    "characteristics": [
+      "乳白色半透明",
+      "自润滑性能优异，摩擦系数低",
+      "耐磨损，机械强度高",
+      "耐疲劳性能好"
+    ],
+    "burnCharacteristics": [
+      "火焰极其淡蓝，几乎不可见",
+      "持续燃烧直至燃尽",
+      "释放刺鼻甲醛气味",
+      "燃烧时有轻微滴落"
+    ],
+    "physicalCharacteristics": [
+      "敲击发出金属脆声",
+      "表面有蜡质感",
+      "手感光滑有光泽",
+      "质地坚硬，不易变形"
+    ],
+    "densityCharacteristics": [
+      "密度约1.41，明显重于水",
+      "手感异常沉重"
+    ],
+    "safetyLevel": "danger",
+    "safetyWarning": "极度危险！燃烧时火焰几乎不可见，释放有毒甲醛气体。必须在通风良好的环境下操作，避免吸入。",
+    "currentPrice": 16500,
+    "priceUnit": "元/吨",
+    "priceChange": 0.3
+  },
+  {
+    "id": "pp",
+    "name": "PP",
+    "fullName": "聚丙烯",
+    "slang": "百折胶",
+    "density": 0.9,
+    "characteristics": [
+      "半透明至不透明，常见乳白色",
+      "密度最低的通用塑料",
+      "耐化学腐蚀性好，耐酸碱",
+      "耐疲劳弯折，可反复折弯不断"
+    ],
+    "burnCharacteristics": [
+      "火星很少",
+      "火焰明亮，黄色火焰带蓝尖",
+      "燃烧时有石蜡味",
+      "烟少或无烟，滴落拉丝"
+    ],
+    "physicalCharacteristics": [
+      "敲击发出沉闷声",
+      "手感蜡质油滑",
+      "可大幅弯折不断裂",
+      "浮于水面"
+    ],
+    "densityCharacteristics": [
+      "密度约0.9，小于水，会浮在水面上",
+      "手感异常轻"
+    ],
+    "safetyLevel": "safe",
+    "currentPrice": 8200,
+    "priceUnit": "元/吨",
+    "priceChange": -1.5
+  },
+  {
+    "id": "pe",
+    "name": "PE",
+    "fullName": "聚乙烯",
+    "slang": "花料",
+    "density": 0.92,
+    "characteristics": [
+      "半透明，乳白色",
+      "质地柔软，手感滑腻",
+      "耐低温性能好",
+      "耐化学腐蚀"
+    ],
+    "burnCharacteristics": [
+      "火星很少",
+      "火焰明亮，黄色火焰",
+      "有蜡烛燃烧味",
+      "燃烧时滴落，如火柴燃烧般"
+    ],
+    "physicalCharacteristics": [
+      "敲击发出沉闷声",
+      "手感柔软滑腻，蜡质感",
+      "可大幅度弯折",
+      "浮于水面"
+    ],
+    "densityCharacteristics": [
+      "密度约0.92，小于水，会浮在水面上",
+      "手感异常轻"
+    ],
+    "safetyLevel": "safe",
+    "currentPrice": 8800,
+    "priceUnit": "元/吨",
+    "priceChange": -0.5
+  },
+  {
+    "id": "hdpe",
+    "name": "HDPE",
+    "fullName": "高密度聚乙烯",
+    "slang": "低压PE",
+    "density": 0.95,
+    "characteristics": [
+      "不透明，常见白色或彩色",
+      "比LDPE硬挺",
+      "耐化学腐蚀性好",
+      "常见于瓶子、管道"
+    ],
+    "burnCharacteristics": [
+      "火星很少",
+      "黄色火焰",
+      "有蜡烛味",
+      "燃烧时滴落"
+    ],
+    "physicalCharacteristics": [
+      "敲击发出沉闷声",
+      "比LDPE硬，表面较粗糙",
+      "可弯折",
+      "浮于水面"
+    ],
+    "densityCharacteristics": [
+      "密度约0.95，小于水，会浮在水面上",
+      "手感重量偏轻"
+    ],
+    "safetyLevel": "safe",
+    "currentPrice": 9200,
+    "priceUnit": "元/吨",
+    "priceChange": -0.2
+  },
+  {
+    "id": "ldpe",
+    "name": "LDPE",
+    "fullName": "低密度聚乙烯",
+    "slang": "高压PE",
+    "density": 0.92,
+    "characteristics": [
+      "半透明，乳白色",
+      "质地柔软，有弹性",
+      "常见于塑料袋、保鲜膜",
+      "耐低温"
+    ],
+    "burnCharacteristics": [
+      "火星很少",
+      "黄色火焰",
+      "蜡烛味明显",
+      "燃烧时滴落速度快"
+    ],
+    "physicalCharacteristics": [
+      "敲击发出沉闷声",
+      "手感特别柔软滑腻",
+      "极易弯折，有弹性",
+      "浮于水面"
+    ],
+    "densityCharacteristics": [
+      "密度约0.92，小于水，会浮在水面上",
+      "手感异常轻且软"
+    ],
+    "safetyLevel": "safe",
+    "currentPrice": 8600,
+    "priceUnit": "元/吨",
+    "priceChange": -0.6
+  },
+  {
+    "id": "pa",
+    "name": "PA",
+    "fullName": "尼龙",
+    "slang": "尼龙",
+    "density": 1.14,
+    "characteristics": [
+      "乳白色或微黄半透明",
+      "耐磨性能优异",
+      "机械强度高，韧性好",
+      "耐油耐化学腐蚀"
+    ],
+    "burnCharacteristics": [
+      "火焰呈蓝色",
+      "燃烧缓慢，滴落拉丝",
+      "产生烧焦头发或羊毛味",
+      "燃烧时产生白烟"
+    ],
+    "physicalCharacteristics": [
+      "敲击发出金属脆声",
+      "表面有光泽",
+      "手感较硬但韧性强",
+      "吸水后尺寸变化"
+    ],
+    "densityCharacteristics": [
+      "密度约1.14，略重于水",
+      "手感重量适中"
+    ],
+    "safetyLevel": "caution",
+    "safetyWarning": "燃烧时滴落物温度高，注意防护",
+    "currentPrice": 22000,
+    "priceUnit": "元/吨",
+    "priceChange": 2.1
+  },
+  {
+    "id": "ps",
+    "name": "PS",
+    "fullName": "聚苯乙烯",
+    "slang": "硬胶",
+    "density": 1.05,
+    "characteristics": [
+      "透明或自然色，玻璃般透明",
+      "质地硬而脆，极易折断",
+      "加工流动性好",
+      "电绝缘性好"
+    ],
+    "burnCharacteristics": [
+      "产生极其浓密的黑烟",
+      "火焰呈橙黄色",
+      "散发甜芳香味（苯乙烯单体味）",
+      "燃烧时有大量炭黑飘散"
+    ],
+    "physicalCharacteristics": [
+      "敲击发出清脆金属敲击声",
+      "透明如玻璃",
+      "极易折断，断裂面整齐",
+      "手感硬而脆"
+    ],
+    "densityCharacteristics": [
+      "密度约1.05，接近水的密度",
+      "手感重量适中"
+    ],
+    "safetyLevel": "caution",
+    "safetyWarning": "燃烧时产生大量黑烟和苯乙烯气体，需在通风良好处操作",
+    "currentPrice": 9500,
+    "priceUnit": "元/吨",
+    "priceChange": -1.0
+  },
+  {
+    "id": "pet",
+    "name": "PET",
+    "fullName": "聚对苯二甲酸乙二醇酯",
+    "slang": "宝特瓶",
+    "density": 1.38,
+    "characteristics": [
+      "透明，常见于饮料瓶",
+      "阻气性好，耐油脂",
+      "机械强度较高",
+      "耐疲劳，耐摩擦"
+    ],
+    "burnCharacteristics": [
+      "燃烧时产生浓烟",
+      "火焰呈黄色带橙边",
+      "散发甜焦糖味",
+      "燃烧后残留硬脆碎片"
+    ],
+    "physicalCharacteristics": [
+      "敲击声清脆",
+      "透明，断裂面呈透明碎片状",
+      "手感光滑硬挺",
+      "折弯时不易发白"
+    ],
+    "densityCharacteristics": [
+      "密度约1.38，明显重于水",
+      "手感偏重"
+    ],
+    "safetyLevel": "safe",
+    "currentPrice": 7200,
+    "priceUnit": "元/吨",
+    "priceChange": 1.0
+  },
+  {
+    "id": "pvc",
+    "name": "PVC",
+    "fullName": "聚氯乙烯",
+    "slang": "PVC",
+    "density": 1.4,
+    "characteristics": [
+      "不透明或半透明",
+      "硬度可通过增塑剂调节（软质/硬质）",
+      "耐化学腐蚀好，耐酸碱",
+      "电绝缘性好"
+    ],
+    "burnCharacteristics": [
+      "火焰呈黄色带绿边（特征性的绿色边缘）",
+      "离火即灭，自熄性强",
+      "散发强烈刺鼻盐酸味",
+      "燃烧产生白烟（氯化氢气体）"
+    ],
+    "physicalCharacteristics": [
+      "敲击声沉闷偏中",
+      "手感偏重偏硬（硬质）",
+      "弯折困难（硬质）",
+      "表面光泽度因配方而异"
+    ],
+    "densityCharacteristics": [
+      "密度约1.4，明显重于水",
+      "手感偏重"
+    ],
+    "safetyLevel": "danger",
+    "safetyWarning": "燃烧释放氯化氢气体和剧毒二噁英，极度危险！不可进行燃烧测试！",
+    "currentPrice": 6500,
+    "priceUnit": "元/吨",
+    "priceChange": -0.5
+  },
+  {
+    "id": "pmma",
+    "name": "PMMA",
+    "fullName": "亚克力",
+    "slang": "亚克力",
+    "density": 1.19,
+    "characteristics": [
+      "透明度极高，透光率92%以上",
+      "硬而脆，易碎",
+      "耐候性好，户外不黄变",
+      "表面硬度高，耐磨性优于PC"
+    ],
+    "burnCharacteristics": [
+      "火焰明亮，呈黄色",
+      "燃烧时发出噼啪声响",
+      "散发果香甜味",
+      "几乎无烟"
+    ],
+    "physicalCharacteristics": [
+      "敲击发出清脆金属声",
+      "透明如玻璃，光泽度高",
+      "质地硬脆，容易碎裂",
+      "表面光滑，手感好"
+    ],
+    "densityCharacteristics": [
+      "密度约1.19，略重于水",
+      "手感重量适中"
+    ],
+    "safetyLevel": "safe",
+    "currentPrice": 18500,
+    "priceUnit": "元/吨",
+    "priceChange": 0.8
+  },
+  {
+    "id": "fr-abs",
+    "name": "阻燃ABS",
+    "fullName": "阻燃ABS",
+    "slang": "阻燃料",
+    "density": 1.05,
+    "characteristics": [
+      "不透明，常见黑色或深色",
+      "具有阻燃性能，离火即灭",
+      "机械性能与ABS相似",
+      "含溴系阻燃剂"
+    ],
+    "burnCharacteristics": [
+      "离火即灭，自熄性强",
+      "火星散开程度低于普通ABS",
+      "黑烟较普通ABS略少",
+      "有刺鼻气味（阻燃剂分解）"
+    ],
+    "physicalCharacteristics": [
+      "敲击发出沉闷声",
+      "表面哑光",
+      "折弯发白",
+      "比重与普通ABS相近"
+    ],
+    "densityCharacteristics": [
+      "密度约1.05",
+      "手感重量适中"
+    ],
+    "safetyLevel": "caution",
+    "safetyWarning": "含溴系阻燃剂，燃烧气体有刺激性",
+    "currentPrice": 18500,
+    "priceUnit": "元/吨",
+    "priceChange": 1.5
+  },
+  {
+    "id": "lead-filled",
+    "name": "加铅重料",
+    "fullName": "含铅填充塑料",
+    "slang": "石头料/重料",
+    "density": 1.6,
+    "characteristics": [
+      "不透明，颜色多为灰色或深色",
+      "含重金属铅和大量无机填料",
+      "质地极脆，一敲即碎",
+      "无明显塑料感"
+    ],
+    "burnCharacteristics": [
+      "极难点燃",
+      "燃烧无味或气味微弱",
+      "几乎无火焰",
+      "燃烧后残留大量灰白粉末"
+    ],
+    "physicalCharacteristics": [
+      "敲击发出死沉声",
+      "手感异常沉重",
+      "木质纹理或石质感",
+      "极其脆，轻微敲击即碎裂"
+    ],
+    "densityCharacteristics": [
+      "密度约1.6，非常重",
+      "手感异常沉重，远超一般塑料"
+    ],
+    "safetyLevel": "danger",
+    "safetyWarning": "含重金属铅，建议按杂料或危废处理，避免破碎粉尘吸入",
+    "currentPrice": 2000,
+    "priceUnit": "元/吨",
+    "priceChange": 0
+  },
+  {
+    "id": "stone-filled",
+    "name": "石头料",
+    "fullName": "高填充钙粉料",
+    "slang": "钙粉料",
+    "density": 1.55,
+    "characteristics": [
+      "不透明，颜色泛白或浅灰",
+      "碳酸钙填充量极高（50-80%）",
+      "几乎无回收利用价值",
+      "常见于劣质廉价制品"
+    ],
+    "burnCharacteristics": [
+      "极难点燃",
+      "燃烧几乎无味",
+      "火焰微弱",
+      "燃烧后残留大量白色/灰色灰烬"
+    ],
+    "physicalCharacteristics": [
+      "敲击发出死沉声，无明显回弹",
+      "手感异常沉重",
+      "表面粗糙，有粉质感",
+      "脆性大，易断裂"
+    ],
+    "densityCharacteristics": [
+      "密度约1.55，非常重",
+      "手感异常沉重，搬运费力"
+    ],
+    "safetyLevel": "caution",
+    "safetyWarning": "几乎无回收价值，建议直接按杂料或废料处理",
+    "currentPrice": 1500,
+    "priceUnit": "元/吨",
+    "priceChange": 0
+  },
+  {
+    "id": "pla",
+    "name": "PLA",
+    "fullName": "聚乳酸",
+    "slang": "聚乳酸",
+    "density": 1.24,
+    "characteristics": [
+      "半透明或不透明",
+      "生物可降解材料",
+      "来源于玉米淀粉等可再生资源",
+      "58℃即开始软化，耐热性极差"
+    ],
+    "burnCharacteristics": [
+      "火焰呈黄色",
+      "燃烧缓慢",
+      "散发焦糊甜味（类似焦糖爆米花）",
+      "燃烧时不滴落或滴落少"
+    ],
+    "physicalCharacteristics": [
+      "敲击声清脆偏脆",
+      "手感硬而脆",
+      "表面光滑",
+      "低温即软化变形"
+    ],
+    "densityCharacteristics": [
+      "密度约1.24，重于水",
+      "手感重量适中偏重"
+    ],
+    "safetyLevel": "safe",
+    "currentPrice": 28000,
+    "priceUnit": "元/吨",
+    "priceChange": 3.0
+  },
+  {
+    "id": "pbt",
+    "name": "PBT",
+    "fullName": "聚对苯二甲酸丁二醇酯",
+    "slang": "PBT",
+    "density": 1.31,
+    "characteristics": [
+      "不透明，常见白色",
+      "结晶速度快，成型周期短",
+      "电绝缘性优异",
+      "耐热老化，耐化学腐蚀"
+    ],
+    "burnCharacteristics": [
+      "自熄性，离火即灭",
+      "火焰呈黄色",
+      "烟量中等",
+      "有特殊芳香气味"
+    ],
+    "physicalCharacteristics": [
+      "敲击声清脆",
+      "表面光滑有光泽",
+      "手感硬而韧",
+      "尺寸稳定性好"
+    ],
+    "densityCharacteristics": [
+      "密度约1.31，重于水",
+      "手感偏重"
+    ],
+    "safetyLevel": "safe",
+    "currentPrice": 25000,
+    "priceUnit": "元/吨",
+    "priceChange": 1.8
+  }
+]
